@@ -9,10 +9,12 @@
 
 <style>
 :root{
-  --text:#4a2a35;
-  --card:rgba(255,255,255,.85);
+  --text:#3a2430;
+  --card:rgba(255,255,255,.82);
+  --glass:rgba(255,255,255,.6);
 }
 
+/* ===== Base ===== */
 *{box-sizing:border-box}
 
 body{
@@ -21,66 +23,48 @@ body{
   color:var(--text);
   overflow-x:hidden;
   background:
-    radial-gradient(circle at 20% 20%, #ffd6e8 0%, transparent 40%),
-    radial-gradient(circle at 80% 30%, #ffeaf4 0%, transparent 40%),
-    linear-gradient(180deg,#fff0f6,#ffe6ef);
+    radial-gradient(circle at 20% 20%, #cdb4db 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #ffc8dd 0%, transparent 45%),
+    linear-gradient(180deg,#2b193f,#f2e9f7);
 }
 
-/* 🌸 Floating bokeh hearts */
-.bokeh{
+/* ===== Floating flowers / roses ===== */
+.bg-flower{
   position:fixed;
-  width:14px;
-  height:14px;
-  background:rgba(255,182,213,.6);
-  border-radius:50%;
-  filter:blur(2px);
-  animation:float 14s linear infinite;
-}
-@keyframes float{
-  to{
-    transform:translateY(-120vh) translateX(40px);
-    opacity:0;
-  }
-}
-
-/* 🌸 Cherry blossoms */
-.petal{
-  position:fixed;
-  top:-30px;
-  font-size:14px;
-  opacity:.6;
+  font-size:22px;
+  opacity:.35;
+  animation:floatUp linear infinite;
   pointer-events:none;
-  animation:fall linear infinite;
 }
-@keyframes fall{
+@keyframes floatUp{
   to{
-    transform:translateY(110vh) rotate(360deg);
+    transform:translateY(-120vh) rotate(360deg);
     opacity:0;
   }
 }
 
-/* 🎵 Music button */
+/* ===== Music ===== */
 .music-btn{
   position:fixed;
   bottom:20px;
   right:20px;
-  background:rgba(255,255,255,.9);
-  border-radius:50%;
   width:52px;
   height:52px;
+  border-radius:50%;
+  background:var(--glass);
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:22px;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  box-shadow:0 12px 25px rgba(0,0,0,.2);
   cursor:pointer;
   z-index:10;
 }
 
-/* Hero */
+/* ===== Hero ===== */
 header{
   text-align:center;
-  padding:70px 20px 50px;
+  padding:80px 20px 50px;
 }
 h1{
   font-family:"Playfair Display",serif;
@@ -88,85 +72,105 @@ h1{
   margin:0;
 }
 .subtitle{
-  margin-top:14px;
+  margin-top:16px;
   font-family:"Dancing Script",cursive;
   font-size:22px;
   opacity:.9;
 }
 
-/* Container */
+/* ===== Layout ===== */
 .container{
   max-width:420px;
   margin:auto;
   padding:16px;
 }
 
-/* 📸 Photo blocks */
+/* ===== Image Blocks ===== */
 .block{
   position:relative;
-  height:260px;
-  border-radius:22px;
-  margin:40px 0;
+  height:520px;
+  border-radius:26px;
   overflow:hidden;
-  background:var(--card);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+  margin:50px 0;
+  background:#000;
   opacity:0;
-  transform:translateY(40px) scale(.95);
-  transition:1.2s ease;
+  transform:translateY(60px) scale(.95);
+  filter:blur(6px);
+  transition:1.3s cubic-bezier(.2,.8,.2,1);
 }
 .block.show{
   opacity:1;
   transform:none;
+  filter:none;
 }
 
-/* Quote first */
-.block .quote{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  font-family:"Dancing Script",cursive;
-  font-size:24px;
-  z-index:2;
-  background:rgba(255,255,255,.75);
-  transition:.8s ease;
-}
-
-/* Hidden image */
+/* Image */
 .block img{
   width:100%;
   height:100%;
   object-fit:cover;
   opacity:0;
-  transform:scale(1.1);
+  transform:scale(1.08);
+  transition:1.2s ease;
+}
+
+/* Center Quote (initial) */
+.center-quote{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  text-align:center;
+  font-family:"Dancing Script",cursive;
+  font-size:26px;
+  background:rgba(255,255,255,.78);
+  transition:1s ease;
+  z-index:2;
+}
+
+/* Bottom Quote (after reveal) */
+.bottom-quote{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:14px;
+  text-align:center;
+  font-family:"Dancing Script",cursive;
+  font-size:20px;
+  background:rgba(0,0,0,.45);
+  color:#fff;
+  opacity:0;
+  transform:translateY(20px);
   transition:1s ease;
 }
 
-/* Reveal image on tap */
+/* Reveal State */
 .block.reveal img{
   opacity:1;
   transform:none;
 }
-.block.reveal .quote{
-  opacity:0;
-}
-
-/* Cards */
-.card{
-  background:var(--card);
-  border-radius:26px;
-  padding:22px;
-  margin:40px 0;
-  box-shadow:0 16px 35px rgba(255,182,213,.35);
-  text-align:center;
+.block.reveal .center-quote{
   opacity:0;
   transform:translateY(40px);
-  transition:1s ease;
+}
+.block.reveal .bottom-quote{
+  opacity:1;
+  transform:none;
+}
+
+/* ===== Cards ===== */
+.card{
+  background:var(--card);
+  border-radius:28px;
+  padding:24px;
+  margin:50px 0;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+  text-align:center;
+  opacity:0;
+  transform:translateY(50px);
+  transition:1.2s ease;
 }
 .card.show{
   opacity:1;
@@ -179,22 +183,15 @@ h1{
   margin-top:16px;
 }
 
-/* Night */
-.night{
-  display:none;
-  background:linear-gradient(180deg,#2a0f2f,#140016);
-  color:#ffd7ea;
-}
-
-/* Hidden love */
+/* ===== Hidden Love ===== */
 .hidden-love{
   opacity:0;
-  transform:translateY(20px);
-  transition:1.5s ease;
+  transform:translateY(30px);
+  transition:1.6s ease;
   font-family:"Dancing Script",cursive;
-  font-size:30px;
+  font-size:32px;
   text-align:center;
-  margin:70px 0 40px;
+  margin:80px 0 40px;
 }
 .hidden-love.show{
   opacity:1;
@@ -205,7 +202,6 @@ h1{
 
 <body>
 
-<!-- 🎵 Music -->
 <div class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</div>
 <audio id="music">
   <source src="media/raanjhanaa.mp3" type="audio/mpeg">
@@ -220,20 +216,19 @@ h1{
 
 <div class="container">
 
-  <!-- Quote-first blocks -->
-  <div class="block"><div class="quote">You feel like home 🤍</div><img src="media/pic1.jpg"></div>
-  <div class="block"><div class="quote">My favorite smile</div><img src="media/pic2.jpg"></div>
-  <div class="block"><div class="quote">This moment feels warm</div><img src="media/pic3.jpg"></div>
-  <div class="block"><div class="quote">Comfort looks like you</div><img src="media/pic4.jpg"></div>
-  <div class="block"><div class="quote">Always you</div><img src="media/pic5.jpg"></div>
-  <div class="block"><div class="quote">Us, just being us</div><img src="media/pic6.jpg"></div>
-  <div class="block"><div class="quote">I replay this often</div><img src="media/pic7.jpg"></div>
-  <div class="block"><div class="quote">You make life softer</div><img src="media/pic8.jpg"></div>
-  <div class="block"><div class="quote">My calm place</div><img src="media/pic9.jpg"></div>
-  <div class="block"><div class="quote">This smile, always</div><img src="media/pic10.jpg"></div>
-  <div class="block"><div class="quote">You’re my favorite person</div><img src="media/pic11.jpg"></div>
+  <!-- Image Blocks -->
+  <div class="block"><div class="center-quote">You feel like home 🤍</div><img src="media/pic1.jpg"><div class="bottom-quote">You feel like home 🤍</div></div>
+  <div class="block"><div class="center-quote">My favorite smile</div><img src="media/pic2.jpg"><div class="bottom-quote">My favorite smile</div></div>
+  <div class="block"><div class="center-quote">This moment feels warm</div><img src="media/pic3.jpg"><div class="bottom-quote">This moment feels warm</div></div>
+  <div class="block"><div class="center-quote">Comfort looks like you</div><img src="media/pic4.jpg"><div class="bottom-quote">Comfort looks like you</div></div>
+  <div class="block"><div class="center-quote">Always you</div><img src="media/pic5.jpg"><div class="bottom-quote">Always you</div></div>
+  <div class="block"><div class="center-quote">Us, just being us</div><img src="media/pic6.jpg"><div class="bottom-quote">Us, just being us</div></div>
+  <div class="block"><div class="center-quote">I replay this often</div><img src="media/pic7.jpg"><div class="bottom-quote">I replay this often</div></div>
+  <div class="block"><div class="center-quote">You make life softer</div><img src="media/pic8.jpg"><div class="bottom-quote">You make life softer</div></div>
+  <div class="block"><div class="center-quote">My calm place</div><img src="media/pic9.jpg"><div class="bottom-quote">My calm place</div></div>
+  <div class="block"><div class="center-quote">This smile, always</div><img src="media/pic10.jpg"><div class="bottom-quote">This smile, always</div></div>
+  <div class="block"><div class="center-quote">You’re my favorite person</div><img src="media/pic11.jpg"><div class="bottom-quote">You’re my favorite person</div></div>
 
-  <!-- Love note -->
   <div class="card">
     With you, things feel lighter.<br>
     I feel safe, understood, and chosen.<br><br>
@@ -246,13 +241,6 @@ h1{
     <div class="signature">— Yours 💞</div>
   </div>
 
-  <div class="card night" id="night">
-    🌙<br><br>
-    If you’re reading this late…<br>
-    sleep peacefully, love.<br>
-    I’ll be right here tomorrow 🤍
-  </div>
-
   <div class="hidden-love" id="hiddenLove">
     I love you 💗
   </div>
@@ -260,28 +248,20 @@ h1{
 </div>
 
 <script>
-/* 🌸 Bokeh hearts */
+/* 🌹 Background flowers */
+const flowers=["🌹","🌸","💐","🌺"];
 setInterval(()=>{
-  const b=document.createElement("div");
-  b.className="bokeh";
-  b.style.left=Math.random()*100+"vw";
-  b.style.bottom="-20px";
-  document.body.appendChild(b);
-  setTimeout(()=>b.remove(),14000);
+  const f=document.createElement("div");
+  f.className="bg-flower";
+  f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
+  f.style.left=Math.random()*100+"vw";
+  f.style.bottom="-30px";
+  f.style.animationDuration=12+Math.random()*8+"s";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),20000);
 },1200);
 
-/* 🌸 Cherry blossoms */
-setInterval(()=>{
-  const p=document.createElement("div");
-  p.className="petal";
-  p.textContent="🌸";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=8+Math.random()*6+"s";
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),14000);
-},1400);
-
-/* 🎵 Music (30s loop) */
+/* 🎵 Music 30s loop */
 const music=document.getElementById("music");
 const btn=document.getElementById("musicBtn");
 let playing=false;
@@ -315,18 +295,12 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:.25});
 document.querySelectorAll(".block,.card").forEach(el=>obs.observe(el));
 
-/* 💌 Tap to reveal photo */
+/* 💌 Tap to reveal */
 document.querySelectorAll(".block").forEach(b=>{
   b.addEventListener("click",()=>{
     b.classList.toggle("reveal");
   });
 });
-
-/* 🌙 Night */
-const hr=new Date().getHours();
-if(hr>=22||hr<5){
-  document.getElementById("night").style.display="block";
-}
 
 /* 💗 Hidden love */
 window.addEventListener("scroll",()=>{
