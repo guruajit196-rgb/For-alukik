@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You 🤍</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
@@ -116,7 +116,7 @@ h1{
   transform:scale(1.05);
 }
 
-/* 💌 Quote overlay (tap/hover) */
+/* 💌 Quote overlay */
 .photo span{
   position:absolute;
   inset:0;
@@ -180,17 +180,18 @@ h1{
 
 /* 💌 Hidden Love */
 .hidden-love{
-  display:none;
+  display:block;
+  opacity:0;
+  transform:translateY(20px);
+  transition:1.5s ease;
   font-family:"Dancing Script",cursive;
   font-size:26px;
   text-align:center;
   margin:60px 0 40px;
-  opacity:0;
-  transition:1.2s;
 }
 .hidden-love.show{
-  display:block;
   opacity:1;
+  transform:none;
 }
 </style>
 </head>
@@ -198,9 +199,9 @@ h1{
 <body>
 
 <!-- 🎵 Music -->
-<div class="music-btn" onclick="toggleMusic()">🎵</div>
-<audio id="music" loop>
-  <source src="media/raanjhana.mp3" type="audio/mpeg">
+<div class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</div>
+<audio id="music">
+  <source src="media/raanjhanaa.mp3" type="audio/mpeg">
 </audio>
 
 <header>
@@ -214,19 +215,17 @@ h1{
 
   <!-- Photos -->
   <div class="grid">
-
-    <div class="photo wide"><img src="media/pic1.jpeg"><span>You feel like home 🤍</span></div>
-    <div class="photo"><img src="media/pic2.jpeg"><span>My favorite smile</span></div>
-    <div class="photo"><img src="media/pic3.jpeg"><span>This moment feels warm</span></div>
-    <div class="photo"><img src="media/pic4.jpeg"><span>Comfort looks like you</span></div>
-    <div class="photo"><img src="media/pic5.jpeg"><span>Always you</span></div>
-    <div class="photo wide"><img src="media/pic6.jpeg"><span>Us, just being us</span></div>
-    <div class="photo"><img src="media/pic7.jpeg"><span>I replay this often</span></div>
-    <div class="photo"><img src="media/pic8.jpeg"><span>You make life softer</span></div>
-    <div class="photo"><img src="media/pic9.jpeg"><span>My calm place</span></div>
-    <div class="photo"><img src="media/pic10.jpeg"><span>This smile, always</span></div>
-    <div class="photo wide"><img src="media/pic11.jpeg"><span>You’re my favorite person</span></div>
-
+    <div class="photo wide"><img src="media/pic1.jpg"><span>You feel like home 🤍</span></div>
+    <div class="photo"><img src="media/pic2.jpg"><span>My favorite smile</span></div>
+    <div class="photo"><img src="media/pic3.jpg"><span>This moment feels warm</span></div>
+    <div class="photo"><img src="media/pic4.jpg"><span>Comfort looks like you</span></div>
+    <div class="photo"><img src="media/pic5.jpg"><span>Always you</span></div>
+    <div class="photo wide"><img src="media/pic6.jpg"><span>Us, just being us</span></div>
+    <div class="photo"><img src="media/pic7.jpg"><span>I replay this often</span></div>
+    <div class="photo"><img src="media/pic8.jpg"><span>You make life softer</span></div>
+    <div class="photo"><img src="media/pic9.jpg"><span>My calm place</span></div>
+    <div class="photo"><img src="media/pic10.jpg"><span>This smile, always</span></div>
+    <div class="photo wide"><img src="media/pic11.jpg"><span>You’re my favorite person</span></div>
   </div>
 
   <!-- Love Note -->
@@ -275,26 +274,39 @@ setInterval(()=>{
   setTimeout(()=>p.remove(),14000);
 },1000);
 
-/* 🎵 Music Toggle */
-const music=document.getElementById("music");
-let playing=false;
+/* 🎵 Music Toggle — 30s Partial Loop */
+const music = document.getElementById("music");
+const btn = document.getElementById("musicBtn");
+let playing = false;
+const LOOP_END = 30;
+
 function toggleMusic(){
   if(!playing){
+    music.currentTime = 0;
     music.play();
+    btn.textContent = "⏸️";
   }else{
     music.pause();
+    btn.textContent = "🎵";
   }
-  playing=!playing;
+  playing = !playing;
 }
 
-/* 🌙 Night message */
-const hr=new Date().getHours();
-if(hr>=22 || hr<5){
+music.addEventListener("timeupdate",()=>{
+  if(music.currentTime >= LOOP_END){
+    music.currentTime = 0;
+    music.play();
+  }
+});
+
+/* 🌙 Night Message */
+const hr = new Date().getHours();
+if(hr >= 22 || hr < 5){
   document.getElementById("night").style.display="block";
 }
 
 /* ✨ Scroll Reveal */
-const obs=new IntersectionObserver(entries=>{
+const obs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.classList.add("show");
@@ -312,7 +324,7 @@ document.querySelectorAll(".photo").forEach(p=>{
 
 /* 💌 Hidden I Love You */
 window.addEventListener("scroll",()=>{
-  if(window.scrollY+innerHeight >= document.body.scrollHeight-200){
+  if(window.scrollY + innerHeight >= document.body.scrollHeight - 200){
     document.getElementById("hiddenLove").classList.add("show");
   }
 },{once:true});
