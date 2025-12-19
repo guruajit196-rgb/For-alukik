@@ -9,10 +9,8 @@
 
 <style>
 :root{
-  --bg:#fff6f9;
-  --accent:#ff9ecb;
   --text:#4a2a35;
-  --card:#ffffff;
+  --card:rgba(255,255,255,.85);
 }
 
 *{box-sizing:border-box}
@@ -20,17 +18,37 @@
 body{
   margin:0;
   font-family:Poppins,sans-serif;
-  background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
+  background:
+    radial-gradient(circle at 20% 20%, #ffd6e8 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #ffeaf4 0%, transparent 40%),
+    linear-gradient(180deg,#fff0f6,#ffe6ef);
 }
 
-/* 🌸 Cherry Blossoms */
+/* 🌸 Floating bokeh hearts */
+.bokeh{
+  position:fixed;
+  width:14px;
+  height:14px;
+  background:rgba(255,182,213,.6);
+  border-radius:50%;
+  filter:blur(2px);
+  animation:float 14s linear infinite;
+}
+@keyframes float{
+  to{
+    transform:translateY(-120vh) translateX(40px);
+    opacity:0;
+  }
+}
+
+/* 🌸 Cherry blossoms */
 .petal{
   position:fixed;
   top:-30px;
   font-size:14px;
-  opacity:.7;
+  opacity:.6;
   pointer-events:none;
   animation:fall linear infinite;
 }
@@ -41,12 +59,12 @@ body{
   }
 }
 
-/* 🎵 Music Button */
+/* 🎵 Music button */
 .music-btn{
   position:fixed;
   bottom:20px;
   right:20px;
-  background:#fff;
+  background:rgba(255,255,255,.9);
   border-radius:50%;
   width:52px;
   height:52px;
@@ -62,22 +80,17 @@ body{
 /* Hero */
 header{
   text-align:center;
-  padding:60px 20px 40px;
-  animation:fadeDown 1.2s ease forwards;
-}
-@keyframes fadeDown{
-  from{opacity:0;transform:translateY(-20px)}
-  to{opacity:1;transform:none}
+  padding:70px 20px 50px;
 }
 h1{
   font-family:"Playfair Display",serif;
-  font-size:34px;
+  font-size:36px;
   margin:0;
 }
 .subtitle{
   margin-top:14px;
   font-family:"Dancing Script",cursive;
-  font-size:20px;
+  font-size:22px;
   opacity:.9;
 }
 
@@ -88,81 +101,76 @@ h1{
   padding:16px;
 }
 
-/* 📸 Photo Grid */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-.photo{
+/* 📸 Photo blocks */
+.block{
   position:relative;
+  height:260px;
+  border-radius:22px;
+  margin:40px 0;
   overflow:hidden;
-  border-radius:18px;
-  opacity:0;
-  transform:translateY(30px);
-  transition:1s ease;
-}
-.photo.show{
-  opacity:1;
-  transform:none;
-}
-.photo img{
-  width:100%;
-  display:block;
-  object-fit:cover;
-  transition:transform .6s ease;
-}
-.photo:hover img{
-  transform:scale(1.05);
-}
-
-/* 💌 Quote overlay */
-.photo span{
-  position:absolute;
-  inset:0;
-  background:rgba(255,255,255,.88);
+  background:var(--card);
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  font-family:"Dancing Script",cursive;
-  font-size:18px;
-  padding:16px;
   opacity:0;
-  transition:.6s ease;
+  transform:translateY(40px) scale(.95);
+  transition:1.2s ease;
 }
-.photo.active span,
-.photo:hover span{
+.block.show{
   opacity:1;
+  transform:none;
 }
 
-/* Wide photos */
-.photo.wide{
-  grid-column:span 2;
+/* Quote first */
+.block .quote{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  font-family:"Dancing Script",cursive;
+  font-size:24px;
+  z-index:2;
+  background:rgba(255,255,255,.75);
+  transition:.8s ease;
 }
 
-/* 💗 Cards */
+/* Hidden image */
+.block img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1.1);
+  transition:1s ease;
+}
+
+/* Reveal image on tap */
+.block.reveal img{
+  opacity:1;
+  transform:none;
+}
+.block.reveal .quote{
+  opacity:0;
+}
+
+/* Cards */
 .card{
   background:var(--card);
-  border-radius:24px;
-  padding:20px;
-  margin:28px 0;
-  box-shadow:0 14px 30px rgba(255,158,203,.25);
+  border-radius:26px;
+  padding:22px;
+  margin:40px 0;
+  box-shadow:0 16px 35px rgba(255,182,213,.35);
   text-align:center;
   opacity:0;
-  transform:translateY(30px);
+  transform:translateY(40px);
   transition:1s ease;
 }
 .card.show{
   opacity:1;
   transform:none;
-}
-.card p{
-  animation:float 4s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
 }
 
 .signature{
@@ -171,23 +179,22 @@ h1{
   margin-top:16px;
 }
 
-/* 🌙 Night card */
+/* Night */
 .night{
   display:none;
   background:linear-gradient(180deg,#2a0f2f,#140016);
   color:#ffd7ea;
 }
 
-/* 💌 Hidden Love */
+/* Hidden love */
 .hidden-love{
-  display:block;
   opacity:0;
   transform:translateY(20px);
   transition:1.5s ease;
   font-family:"Dancing Script",cursive;
-  font-size:26px;
+  font-size:30px;
   text-align:center;
-  margin:60px 0 40px;
+  margin:70px 0 40px;
 }
 .hidden-love.show{
   opacity:1;
@@ -213,40 +220,32 @@ h1{
 
 <div class="container">
 
-  <!-- Photos -->
-  <div class="grid">
-    <div class="photo wide"><img src="media/pic1.jpg"><span>You feel like home 🤍</span></div>
-    <div class="photo"><img src="media/pic2.jpg"><span>My favorite smile</span></div>
-    <div class="photo"><img src="media/pic3.jpg"><span>This moment feels warm</span></div>
-    <div class="photo"><img src="media/pic4.jpg"><span>Comfort looks like you</span></div>
-    <div class="photo"><img src="media/pic5.jpg"><span>Always you</span></div>
-    <div class="photo wide"><img src="media/pic6.jpg"><span>Us, just being us</span></div>
-    <div class="photo"><img src="media/pic7.jpg"><span>I replay this often</span></div>
-    <div class="photo"><img src="media/pic8.jpg"><span>You make life softer</span></div>
-    <div class="photo"><img src="media/pic9.jpg"><span>My calm place</span></div>
-    <div class="photo"><img src="media/pic10.jpg"><span>This smile, always</span></div>
-    <div class="photo wide"><img src="media/pic11.jpg"><span>You’re my favorite person</span></div>
+  <!-- Quote-first blocks -->
+  <div class="block"><div class="quote">You feel like home 🤍</div><img src="media/pic1.jpg"></div>
+  <div class="block"><div class="quote">My favorite smile</div><img src="media/pic2.jpg"></div>
+  <div class="block"><div class="quote">This moment feels warm</div><img src="media/pic3.jpg"></div>
+  <div class="block"><div class="quote">Comfort looks like you</div><img src="media/pic4.jpg"></div>
+  <div class="block"><div class="quote">Always you</div><img src="media/pic5.jpg"></div>
+  <div class="block"><div class="quote">Us, just being us</div><img src="media/pic6.jpg"></div>
+  <div class="block"><div class="quote">I replay this often</div><img src="media/pic7.jpg"></div>
+  <div class="block"><div class="quote">You make life softer</div><img src="media/pic8.jpg"></div>
+  <div class="block"><div class="quote">My calm place</div><img src="media/pic9.jpg"></div>
+  <div class="block"><div class="quote">This smile, always</div><img src="media/pic10.jpg"></div>
+  <div class="block"><div class="quote">You’re my favorite person</div><img src="media/pic11.jpg"></div>
+
+  <!-- Love note -->
+  <div class="card">
+    With you, things feel lighter.<br>
+    I feel safe, understood, and chosen.<br><br>
+    Loving you feels easy 🤍
   </div>
 
-  <!-- Love Note -->
   <div class="card">
-    <p>
-      With you, things feel lighter.<br>
-      I feel safe, understood, and chosen.<br><br>
-      Loving you feels easy 🤍
-    </p>
-  </div>
-
-  <!-- Promise -->
-  <div class="card">
-    <p>
-      No matter how busy or quiet life gets,<br>
-      I’m always on your side.
-    </p>
+    No matter how busy or quiet life gets,<br>
+    I’m always on your side.
     <div class="signature">— Yours 💞</div>
   </div>
 
-  <!-- Night -->
   <div class="card night" id="night">
     🌙<br><br>
     If you’re reading this late…<br>
@@ -254,7 +253,6 @@ h1{
     I’ll be right here tomorrow 🤍
   </div>
 
-  <!-- Hidden Love -->
   <div class="hidden-love" id="hiddenLove">
     I love you 💗
   </div>
@@ -262,69 +260,77 @@ h1{
 </div>
 
 <script>
-/* 🌸 Cherry Blossoms */
+/* 🌸 Bokeh hearts */
+setInterval(()=>{
+  const b=document.createElement("div");
+  b.className="bokeh";
+  b.style.left=Math.random()*100+"vw";
+  b.style.bottom="-20px";
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(),14000);
+},1200);
+
+/* 🌸 Cherry blossoms */
 setInterval(()=>{
   const p=document.createElement("div");
   p.className="petal";
   p.textContent="🌸";
   p.style.left=Math.random()*100+"vw";
-  p.style.fontSize=12+Math.random()*10+"px";
   p.style.animationDuration=8+Math.random()*6+"s";
   document.body.appendChild(p);
   setTimeout(()=>p.remove(),14000);
-},1000);
+},1400);
 
-/* 🎵 Music Toggle — 30s Partial Loop */
-const music = document.getElementById("music");
-const btn = document.getElementById("musicBtn");
-let playing = false;
-const LOOP_END = 30;
+/* 🎵 Music (30s loop) */
+const music=document.getElementById("music");
+const btn=document.getElementById("musicBtn");
+let playing=false;
+const LOOP_END=30;
 
 function toggleMusic(){
   if(!playing){
-    music.currentTime = 0;
+    music.currentTime=0;
     music.play();
-    btn.textContent = "⏸️";
+    btn.textContent="⏸️";
   }else{
     music.pause();
-    btn.textContent = "🎵";
+    btn.textContent="🎵";
   }
-  playing = !playing;
+  playing=!playing;
 }
-
 music.addEventListener("timeupdate",()=>{
-  if(music.currentTime >= LOOP_END){
-    music.currentTime = 0;
+  if(music.currentTime>=LOOP_END){
+    music.currentTime=0;
     music.play();
   }
 });
 
-/* 🌙 Night Message */
-const hr = new Date().getHours();
-if(hr >= 22 || hr < 5){
-  document.getElementById("night").style.display="block";
-}
-
-/* ✨ Scroll Reveal */
-const obs = new IntersectionObserver(entries=>{
+/* ✨ Scroll reveal */
+const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.classList.add("show");
     }
   });
-},{threshold:.2});
-document.querySelectorAll(".photo,.card").forEach(el=>obs.observe(el));
+},{threshold:.25});
+document.querySelectorAll(".block,.card").forEach(el=>obs.observe(el));
 
-/* 📱 Tap to reveal quotes */
-document.querySelectorAll(".photo").forEach(p=>{
-  p.addEventListener("click",()=>{
-    p.classList.toggle("active");
+/* 💌 Tap to reveal photo */
+document.querySelectorAll(".block").forEach(b=>{
+  b.addEventListener("click",()=>{
+    b.classList.toggle("reveal");
   });
 });
 
-/* 💌 Hidden I Love You */
+/* 🌙 Night */
+const hr=new Date().getHours();
+if(hr>=22||hr<5){
+  document.getElementById("night").style.display="block";
+}
+
+/* 💗 Hidden love */
 window.addEventListener("scroll",()=>{
-  if(window.scrollY + innerHeight >= document.body.scrollHeight - 200){
+  if(window.scrollY+innerHeight>=document.body.scrollHeight-200){
     document.getElementById("hiddenLove").classList.add("show");
   }
 },{once:true});
